@@ -1,0 +1,8 @@
+config BR2_PACKAGE_HGIC_FMAC_OPENIPC
+	bool "hgic-fmac-openipc"
+	depends on BR2_LINUX_KERNEL
+	help
+	  HUGE-IC FullMAC Wireless Card Driver
+	  
+comment "hgic-fmac needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL

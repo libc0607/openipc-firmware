@@ -1,0 +1,4 @@
+config BR2_PACKAGE_HGIC_AHTOOLS
+	bool "hgic-ahtools"
+	help
+	  management tools for Huge-IC 802.11ah NIC
