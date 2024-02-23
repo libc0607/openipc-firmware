@@ -7,29 +7,17 @@ TARGET ?= $(PWD)/output
 CONFIG = $(error variable BOARD is not defined)
 TIMER := $(shell date +%s)
 
-ifeq ($(MAKECMDGOALS),all)
-ifeq ($(BOARD),)
+ifeq ($(or $(MAKECMDGOALS), $(BOARD)),)
 LIST := $(shell find ./br-ext-*/configs/*_defconfig | sort | \
 	sed -E "s/br-ext-chip-(.+).configs.(.+)_defconfig/'\2' '\1 \2'/")
-BOARD := $(or $(shell whiptail --title "Available boards" --menu "Please select a board:" 20 76 12 \
+BOARD := $(or $(shell whiptail --title "Available boards" --menu "Select a config:" 20 70 12 \
 	--notags $(LIST) 3>&1 1>&2 2>&3),$(CONFIG))
-endif
 endif
 
 ifneq ($(BOARD),)
 CONFIG := $(shell find br-ext-*/configs/*_defconfig | grep -m1 $(BOARD))
 include $(CONFIG)
 endif
-
-help:
-	@printf "BR-OpenIPC usage:\n \
-	- make list - show available device configurations\n \
-	- make deps - install build dependencies\n \
-	- make clean - remove defconfig and target folder\n \
-	- make package - list available packages\n \
-	- make distclean - remove buildroot and output folder\n \
-	- make br-linux - build linux kernel only\n \
-	- make all - build the device firmware\n\n"
 
 all: build repack timer
 
@@ -48,20 +36,29 @@ prepare:
 		wget -c -q $(BR_LINK)/$(BR_VER).tar.gz -O $(BR_FILE); \
 		mkdir -p $(TARGET); tar -xf $(BR_FILE) -C $(TARGET); fi
 
-toolname:
-	@general/scripts/show_toolchains.sh $(CONFIG)
+help:
+	@printf "BR-OpenIPC usage:\n \
+	- make list - show available device configurations\n \
+	- make deps - install build dependencies\n \
+	- make clean - remove defconfig and target folder\n \
+	- make package - list available packages\n \
+	- make distclean - remove buildroot and output folder\n \
+	- make br-linux - build linux kernel only\n\n"
+
+list:
+	@ls -1 br-ext-chip-*/configs
 
 package:
 	@find general/package/* -maxdepth 0 -type d -printf "br-%f\n" | grep -v patch
 
+toolname:
+	@general/scripts/show_toolchains.sh $(CONFIG)
+
 clean:
-	@rm -rf $(TARGET)/images $(TARGET)/target
+	@rm -rf $(TARGET)/build $(TARGET)/images $(TARGET)/per-package $(TARGET)/target
 
 distclean:
 	@rm -rf $(BR_FILE) $(TARGET)
-
-list:
-	@ls -1 br-ext-chip-*/configs
 
 deps:
 	sudo apt-get install -y automake autotools-dev bc build-essential cpio \
@@ -106,14 +103,14 @@ define CHECK_SIZE
 endef
 
 define REPACK_FIRMWARE
-	mkdir -p $(TARGET)/images/$(3)
-	$(if $(1),cd $(TARGET)/images/$(3) && cp -f ../$(1) $(1).$(BR2_OPENIPC_SOC_MODEL))
-	$(if $(2),cd $(TARGET)/images/$(3) && cp -f ../$(2) $(2).$(BR2_OPENIPC_SOC_MODEL))
-	$(if $(1),cd $(TARGET)/images/$(3) && md5sum $(1).$(BR2_OPENIPC_SOC_MODEL) > $(1).$(BR2_OPENIPC_SOC_MODEL).md5sum)
-	$(if $(2),cd $(TARGET)/images/$(3) && md5sum $(2).$(BR2_OPENIPC_SOC_MODEL) > $(2).$(BR2_OPENIPC_SOC_MODEL).md5sum)
+	cd $(TARGET)/images && if test -e rootfs.tar; then mv -f rootfs.tar rootfs.$(BR2_OPENIPC_SOC_MODEL).tar; fi
+	$(if $(1),cd $(TARGET)/images && if test -e $(1); then mv -f $(1) $(1).$(BR2_OPENIPC_SOC_MODEL); fi)
+	$(if $(2),cd $(TARGET)/images && if test -e $(2); then mv -f $(2) $(2).$(BR2_OPENIPC_SOC_MODEL); fi)
+	$(if $(1),cd $(TARGET)/images && md5sum $(1).$(BR2_OPENIPC_SOC_MODEL) > $(1).$(BR2_OPENIPC_SOC_MODEL).md5sum)
+	$(if $(2),cd $(TARGET)/images && md5sum $(2).$(BR2_OPENIPC_SOC_MODEL) > $(2).$(BR2_OPENIPC_SOC_MODEL).md5sum)
 	$(if $(1),$(eval KERNEL = $(1).$(BR2_OPENIPC_SOC_MODEL) $(1).$(BR2_OPENIPC_SOC_MODEL).md5sum),$(eval KERNEL =))
 	$(if $(2),$(eval ROOTFS = $(2).$(BR2_OPENIPC_SOC_MODEL) $(2).$(BR2_OPENIPC_SOC_MODEL).md5sum),$(eval ROOTFS =))
-	$(eval ARCHIVE = ../openipc.$(BR2_OPENIPC_SOC_MODEL)-$(3)-$(BR2_OPENIPC_FLAVOR).tgz)
-	cd $(TARGET)/images/$(3) && tar -czf $(ARCHIVE) $(KERNEL) $(ROOTFS)
-	rm -rf $(TARGET)/images/$(3)
+	$(eval ARCHIVE = openipc.$(BR2_OPENIPC_SOC_MODEL)-$(3)-$(BR2_OPENIPC_VARIANT).tgz)
+	cd $(TARGET)/images && tar -czf $(ARCHIVE) $(KERNEL) $(ROOTFS)
+	rm -f $(TARGET)/images/*.md5sum
 endef

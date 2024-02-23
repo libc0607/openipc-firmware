@@ -5,6 +5,12 @@ set_gpio() {
 	sleep 1
 }
 
+# Generic ATBM603x USB
+if [ "$1" = "atbm603x-generic-usb" ]; then
+	modprobe atbm603x_wifi_usb
+	exit 0
+fi
+
 # Generic MT7601U
 if [ "$1" = "mt7601u-generic" ]; then
 	modprobe mt7601u
@@ -78,6 +84,13 @@ if [ "$1" = "rtl8188fu-hi3518ev200-lifesmart" ]; then
 	exit 0
 fi
 
+# HI3518EV200 Lenovo Snowman 1080p
+if [ "$1" = "rtl8188eus-hi3518ev200-lenovo" ]; then
+	devmem 0x200f006c 32 0
+	modprobe 8188eu
+	exit 0
+fi
+
 # HI3518EV200 Qtech QVC-IPC-136W
 if [ "$1" = "rtl8188eu-hi3518ev200-qvc-ipc-136w" ]; then
 	set_gpio 7 1
@@ -141,6 +154,13 @@ if [ "$1" = "rtl8188fu-ssc337de-foscam" ]; then
 	exit 0
 fi
 
+# SSC377 Dahua
+if [ "$1" = "ssv6x5x-ssc337-dahua" ]; then
+	set_gpio 10 1
+	modprobe ssv6x5x
+	exit 0
+fi
+
 # T10 NVT
 if [ "$1" = "mt7601sta-t10-nvt" ]; then
 	modprobe cfg80211
@@ -173,6 +193,27 @@ fi
 if [ "$1" = "mt7601u-t31-camhi" ]; then
 	set_gpio 61 0
 	modprobe mac80211
+	exit 0
+fi
+
+# T31 Camhipro
+if [ "$1" = "rtl8733bu-t31-camhipro" ]; then
+	set_gpio 61 0
+	modprobe 8733bu
+	exit 0
+fi
+
+# T31 ZTE K540
+if [ "$1" = "atbm603x-t31-zte-k540" ]; then
+	set_gpio 51 0
+	modprobe atbm603x_wifi_usb
+	exit 0
+fi
+
+# SSC333 Babysense See HD IP206
+if [ "$1" = "rtl8188fu-babysense-see-hd-ip206" ]; then
+	set_gpio 14 1
+	modprobe 8188fu
 	exit 0
 fi
 

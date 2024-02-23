@@ -5,47 +5,35 @@
 ################################################################################
 
 MAJESTIC_SITE = https://openipc.s3-eu-west-1.amazonaws.com
-MAJESTIC_SOURCE = majestic.$(MAJESTIC_FAMILY).$(MAJESTIC_RELEASE).master.tar.bz2
-
+MAJESTIC_SOURCE = majestic.$(MAJESTIC_FAMILY).$(MAJESTIC_VARIANT).master.tar.bz2
 MAJESTIC_LICENSE = PROPRIETARY
 MAJESTIC_LICENSE_FILES = LICENSE
 
 MAJESTIC_FAMILY = $(OPENIPC_SOC_FAMILY)
-MAJESTIC_RELEASE = $(OPENIPC_FLAVOR)
+MAJESTIC_VARIANT = $(or $(OPENIPC_MAJESTIC), $(OPENIPC_VARIANT))
 
-# we don't have Majestic ultimate for these platforms
-MAJESTIC_LIST = hi3516av100 hi3519v101
-
-ifneq ($(filter $(MAJESTIC_LIST),$(MAJESTIC_FAMILY)),)
-	MAJESTIC_RELEASE = lite
+MAJESTIC_FILTER = hi3516ev200 gk7205v200 infinity6b0 t31
+ifneq ($(filter $(MAJESTIC_FILTER),$(MAJESTIC_FAMILY)),)
+	MAJESTIC_DEPENDENCIES += majestic-plugins
 endif
 
-ifeq ($(MAJESTIC_RELEASE),lte)
-	MAJESTIC_RELEASE = fpv
-endif
-
-MAJESTIC_DEPENDENCIES = \
+MAJESTIC_DEPENDENCIES += \
 	libevent-openipc \
 	libogg-openipc \
 	mbedtls-openipc \
 	opus-openipc \
-	json-c \
-	zlib
-
-MAJESTIC_STRIP_COMPONENTS = 0
+	json-c
 
 define MAJESTIC_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc
-	$(INSTALL) -m 644 $(@D)/majestic-mini.yaml $(TARGET_DIR)/etc/majestic.yaml
-	$(INSTALL) -m 644 $(@D)/majestic.yaml $(TARGET_DIR)/etc/majestic.full
+	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc $(@D)/majestic.yaml
+	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc $(@D)/majestic.full
 
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/init.d
 	$(INSTALL) -m 755 -t $(TARGET_DIR)/etc/init.d $(MAJESTIC_PKGDIR)/files/S95majestic
 
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 755 -t $(TARGET_DIR)/usr/bin $(@D)/majestic
-
-	rm -rf $(MAJESTIC_DL_DIR)
 endef
 
 $(eval $(generic-package))

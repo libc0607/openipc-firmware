@@ -4,9 +4,8 @@
 #
 ################################################################################
 
-define SIGMASTAR_MOTORS_EXTRACT_CMDS
-	cp -r $(SIGMASTAR_MOTORS_PKGDIR)/src/* $(@D)
-endef
+SIGMASTAR_MOTORS_SITE_METHOD = local
+SIGMASTAR_MOTORS_SITE = $(SIGMASTAR_MOTORS_PKGDIR)/src
 
 define SIGMASTAR_MOTORS_BUILD_CMDS
 	$(MAKE) CC=$(TARGET_CC) -C $(@D)

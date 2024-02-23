@@ -4,16 +4,13 @@
 #
 ################################################################################
 
-QUIRC_OPENIPC_SITE = https://github.com/openipc/quirc/archive
-QUIRC_OPENIPC_SOURCE = master.tar.gz
+QUIRC_OPENIPC_SITE = $(call github,openipc,quirc,$(QUIRC_OPENIPC_VERSION))
+QUIRC_OPENIPC_VERSION = master
 
-QUIRC_OPENIPC_DEPENDENCIES = libjpeg
-LIBJPEG_CONF_OPTS = --disable-shared
-
+QUIRC_OPENIPC_DEPENDENCIES = libjpeg-openipc
 QUIRC_OPENIPC_MAKE_OPTS = \
 	CC=$(TARGET_CC) \
-	AR=$(TARGET_AR) \
-	LDFLAGS="-s"
+	AR=$(TARGET_AR)
 
 define QUIRC_OPENIPC_BUILD_CMDS
 	$(MAKE) $(QUIRC_OPENIPC_MAKE_OPTS) -C $(@D) all

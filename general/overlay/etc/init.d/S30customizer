@@ -1,7 +1,12 @@
 #!/bin/sh
 
 case "$1" in
-    start)
-	system_fb
-    ;;
+	start)
+		system_fb
+		;;
+
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
 esac
