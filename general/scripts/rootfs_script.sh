@@ -7,7 +7,7 @@ date +GITHUB_VERSION="\"${GIT_BRANCH-local}+${GIT_HASH-build}, %Y-%m-%d"\" >> ${
 echo BUILD_OPTION=${OPENIPC_VARIANT} >> ${FILE}
 date +TIME_STAMP=%s >> ${FILE}
 
-CONF="USES_GLIBC=y|INGENIC_OSDRV_T30=y|LIBV4L=y|MAVLINK_ROUTER=y|WIFIBROADCAST=y|WEBRTC_AUDIO_PROCESSING=y"
+CONF="USES_GLIBC=y|INGENIC_OSDRV_T30=y|LIBV4L=y|MAVLINK_ROUTER=y|WIFIBROADCAST=y|RUBYFPV=y|WEBRTC_AUDIO_PROCESSING=y"
 if ! grep -qP ${CONF} ${BR2_CONFIG}; then
 	rm -f ${TARGET_DIR}/usr/lib/libstdc++*
 fi
@@ -19,5 +19,5 @@ fi
 
 LIST="${BR2_EXTERNAL_GENERAL_PATH}/scripts/excludes/${OPENIPC_SOC_MODEL}_${OPENIPC_VARIANT}.list"
 if [ -f ${LIST} ]; then
-        xargs -a ${LIST} -I % rm -f ${TARGET_DIR}%
+	xargs -a ${LIST} -I % rm -f ${TARGET_DIR}%
 fi
