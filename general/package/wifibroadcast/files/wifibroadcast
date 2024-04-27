@@ -43,6 +43,11 @@ detect_wifi_card() {
 				driver="realtek_8812eu"
 				modprobe 8812eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
+				
+			"0bda:f72b")
+				driver="realtek_8733bu"
+				modprobe 8733bu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				;;
 
 			"0cf3:9271" | "040d:3801")
 				driver="atheros"
@@ -83,7 +88,7 @@ load_interface() {
 	if [ "$driver" = "realtek" ]; then
 		ifconfig "$wlan" up
 		iwconfig "$wlan" mode monitor
-	elif [ "$driver" = "realtek_8812eu" ]; then
+	elif [ "$driver" = "realtek_8812eu" ] || [ "$driver" = "realtek_8733bu" ]; then
 		ifconfig "$wlan" up
 		iwconfig "$wlan" mode monitor
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
