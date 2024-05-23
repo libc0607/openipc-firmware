@@ -23,7 +23,7 @@ jobs:
           - {"platform": "ssc30kq", "release": "fpv_8733bu"}
           - {"platform": "ssc30kq", "release": "fpv_8812au"}
           - {"platform": "ssc30kq", "release": "fpv_8812eu"}
-          - {"platform": "ssc30kq", "release": "fpv_8812au_8733bu"}
+          - {"platform": "ssc338q", "release": "fpv_8812au_8733bu"}
           - {"platform": "ssc338q", "release": "fpv_8812eu"}
 
           # Hisilicon [HI3516EV200]
