@@ -21,29 +21,33 @@ jobs:
         include:
           # Sigmastar [I6E]
           - {"platform": "ssc30kq", "release": "fpv_8733bu"}
-          - {"platform": "ssc30kq", "release": "fpv_8812au"}
-          - {"platform": "ssc30kq", "release": "fpv_8812eu"}
+          - {"platform": "ssc30kq", "release": "fpv_8812au_8812eu"}
           - {"platform": "ssc338q", "release": "fpv_8812au_8733bu"}
-          - {"platform": "ssc338q", "release": "fpv_8812eu"}
+          - {"platform": "ssc338q", "release": "fpv_8812au_8812eu"}
 
           # Hisilicon [HI3516EV200]
           - {"platform": "hi3516ev200", "release": "fpv_8733bu"}
           - {"platform": "hi3516ev200", "release": "fpv_8812au"}
           - {"platform": "hi3516ev200", "release": "fpv_8812eu"}
+          - {"platform": "hi3516ev200", "release": "fpv_8812au_8812eu"}
           - {"platform": "hi3516ev300", "release": "fpv_8733bu"}
           - {"platform": "hi3516ev300", "release": "fpv_8812au"}
           - {"platform": "hi3516ev300", "release": "fpv_8812eu"}
+          - {"platform": "hi3516ev300", "release": "fpv_8812au_8812eu"}
 
           # Hisilicon [HI3536DV100] (NVR)
           - {"platform": "hi3536dv100", "release": "fpv_8812eu"}
+          - {"platform": "hi3536dv100", "release": "fpv_8812au_8812eu"}
 
           # Goke [GK7205V200]
           - {"platform": "gk7205v200", "release": "venc_8733bu"}
           - {"platform": "gk7205v200", "release": "venc_8812au"}
           - {"platform": "gk7205v200", "release": "venc_8812eu"}
+          - {"platform": "gk7205v200", "release": "venc_8812au_8812eu"}
           - {"platform": "gk7205v300", "release": "venc_8733bu"}
           - {"platform": "gk7205v300", "release": "venc_8812au"}
           - {"platform": "gk7205v300", "release": "venc_8812eu"}
+          - {"platform": "gk7205v300", "release": "venc_8812au_8812eu"}
 
     steps:
       - name: Checkout source
