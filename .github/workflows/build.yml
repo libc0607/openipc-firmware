@@ -22,6 +22,7 @@ jobs:
           # Sigmastar [I6E]
           - {"platform": "ssc30kq", "release": "fpv_8733bu"}
           - {"platform": "ssc30kq", "release": "fpv_8812au_8812eu"}
+          - {"platform": "ssc30kq", "release": "rubyfpv"}
           - {"platform": "ssc338q", "release": "fpv_8812au_8733bu"}
           - {"platform": "ssc338q", "release": "fpv_8812au_8812eu"}
 
