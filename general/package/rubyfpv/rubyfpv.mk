@@ -1,6 +1,6 @@
 RUBYFPV_SITE_METHOD = git
 RUBYFPV_SITE = https://github.com/PetruSoroaga/RubyFPV
-RUBYFPV_VERSION = 4fc96a30005506bef71aebce743f3bdc8405d394
+RUBYFPV_VERSION = 3befef3fd0042bd37d1dd8bccff6d72cddeeb879
 
 RUBYFPV_DEPENDENCIES += libpcap iw
 
