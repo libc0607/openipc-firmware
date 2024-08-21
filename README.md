@@ -8,11 +8,11 @@ The changes of this branch are:
  - build.yml, only build firmware for not officially supported configs in popular FPV combinations (Save energy. ![The Girl: How dare you.gif])
  - Custom board configs
  - Replaced kernel source link for 3516/7205, as 8812eu driver needs WIRELESS_EXT enabled in kernel source code
- - Using my RTL8733BU package (experimental changes warning)
+ - Using my Wi-Fi driver packages for FPV (experimental changes warning). Currently including [RTL8733BU](https://github.com/libc0607/rtl8733bu-20230626), [RTL8812CU/RTL8822CU](https://github.com/libc0607/rtl88x2cu-20230728), and [RTL8192EU](https://github.com/libc0607/rtl8192eu-20220929)(2.4G only).  
 
 Note 1: ALL HI3516/GK7205 BUILDS NEEDS A 16M-Byte NOR FLASH.  
 
-Note 2: The source code is manually synced with [OpenIPC/firmware](https://github.com/OpenIPC/firmware) so it may not be the latest. Let me know if there are critical changes in mainline -- you can PM me in the Telegram group (OpenIPC FPV Users) or the Chinese QQ group (OpenIPC-FPV开源高清图传交流, 904031209) so that I can sync the code here.  
+Note 2: The source code is manually synced with [OpenIPC/firmware](https://github.com/OpenIPC/firmware) so it may not be the latest. Let me know if there are critical changes in mainline -- you can PM me in the Telegram group (OpenIPC FPV Users) or the Chinese QQ group (904031209) so that I can sync the code here.  
 
 Note 3: The firmware on the release page is not tested on any real board. It's auto-built. Use with caution, you know the risks, and I won't be responsible for them.  
 
@@ -32,6 +32,7 @@ Note 3: The firmware on the release page is not tested on any real board. It's a
 | Hi3536D(E)V100 	| RTL8812EU/RTL8812AU | vdec | [openipc.hi3536dv100-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3536dv100-nor-fpv_8812au_8812eu.tgz) |
 | SSC30KQ	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz) |
 | SSC30KQ	| RTL8733BU | majestic | [openipc.ssc30kq-nor-fpv_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8733bu.tgz) |
+| SSC30KQ	| RTL8812EU/RTL8812AU | RubyFPV(majestic) | [openipc.ssc30kq-nor-rubyfpv.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-rubyfpv.tgz) |
 | SSC338Q	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8812eu.tgz) |
 | SSC338Q	| RTL8733BU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8733bu.tgz) | 
 
