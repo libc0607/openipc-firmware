@@ -33,6 +33,10 @@ Note 3: The firmware on the release page is not tested on any real board. It's a
 | SSC30KQ	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz) |
 | SSC30KQ	| RTL8733BU | majestic | [openipc.ssc30kq-nor-fpv_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8733bu.tgz) |
 | SSC30KQ	| RTL8812EU/RTL8812AU | RubyFPV(majestic) | [openipc.ssc30kq-nor-rubyfpv.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-rubyfpv.tgz) |
+| SSC30KQ	| RTL8812EU/RTL8192EU | majestic | [openipc.ssc30kq-nor-fpv_8812eu_8192eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812eu_8192eu.tgz) |
+| SSC30KQ	| RTL8812CU | majestic | [openipc.ssc30kq-nor-fpv_8812cu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812cu.tgz) |
 | SSC338Q	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8812eu.tgz) |
 | SSC338Q	| RTL8733BU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8733bu.tgz) | 
+| SSC338Q	| RTL8812EU/RTL8192EU | majestic | [openipc.ssc338q-nor-fpv_8812eu_8192eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812eu_8192eu.tgz) |
+| SSC338Q	| RTL8812CU | majestic | [openipc.ssc338q-nor-fpv_8812cu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812cu.tgz) |
 
