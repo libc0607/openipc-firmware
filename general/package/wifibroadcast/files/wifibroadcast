@@ -118,6 +118,15 @@ load_interface() {
 	else
 		iwconfig "$wlan" channel "$channel"
 	fi
+	
+	if [ "$bandwidth" -eq 10 ]; then
+		if [ "$driver" = "8812eu" ]; then
+			iw dev "$wlan" set channel "$channel" 10MHz
+		fi
+		if [ "$driver" = "8733bu" ]; then
+			echo "10" > /proc/net/rtl8733bu/$wlan/narrowband
+		fi
+	fi
 }
 
 start_drone_wfb() {
