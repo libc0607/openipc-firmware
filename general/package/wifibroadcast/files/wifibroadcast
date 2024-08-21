@@ -48,6 +48,11 @@ detect_wifi_card() {
 				driver="8733bu"
 				modprobe 8733bu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
+				
+			"0bda:818b")
+				driver="8192eu"
+				modprobe 8192eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				;;
 
 			"0cf3:9271" | "040d:3801")
 				driver="ar9271"
@@ -95,6 +100,10 @@ load_interface() {
 
 	if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
+	fi
+	
+	if [ "$driver" = "8192eu" ]; then
+		iw dev "$wlan" set txpower fixed $((txpower * 50))
 	fi
 
 	iw reg set "$region"
