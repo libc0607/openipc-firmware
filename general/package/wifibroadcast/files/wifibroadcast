@@ -44,7 +44,7 @@ detect_wifi_card() {
 				modprobe 8812eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
 
-			"0bda:f72b")
+			"0bda:f72b" | "0bda:b733")
 				driver="8733bu"
 				modprobe 8733bu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
@@ -119,18 +119,40 @@ load_interface() {
 		iwconfig "$wlan" channel "$channel"
 	fi
 	
-	if [ "$bandwidth" -eq 10 ]; then
-		if [ "$driver" = "8812eu" ]; then
-			iw dev "$wlan" set channel "$channel" 10MHz
-		fi
-		if [ "$driver" = "8733bu" ]; then
-			echo "10" > /proc/net/rtl8733bu/$wlan/narrowband
-		fi
-	fi
+	iw dev "$wlan" set monitor none
+	iw dev "$wlan" set channel "$channel" HT20
+	case "$bandwidth" in
+		10)
+			case "$driver" in 
+				"8812eu")
+					iw dev "$wlan" set channel "$channel" 10MHz
+				;;
+				"8733bu")
+					echo "10" > /proc/net/rtl8733bu/$wlan/narrowband
+				;;
+			esac
+		;;
+		
+		20)
+		;;
+		
+		40)
+			iw dev "$wlan" set channel "$channel" HT40-
+		;;
+		
+		80)
+			iw dev "$wlan" set channel "$channel" 80MHz
+		;;
+		
+	esac
 }
 
 start_drone_wfb() {
-	wfb_tx -p "$stream" -u "$udp_port" -R "$rcv_buf" -K "$keydir/$unit.key" -B "$bandwidth" \
+	bandwidth_wfb=$bandwidth
+	if [ "$bandwidth_wfb" -eq 10 ]; then
+		bandwidth_wfb=20
+	fi
+	wfb_tx -p "$stream" -u "$udp_port" -R "$rcv_buf" -K "$keydir/$unit.key" -B "$bandwidth_wfb" \
 		-M "$mcs_index" -S "$stbc" -L "$ldpc" -G "$guard_interval" -k "$fec_k" -n "$fec_n" \
 		-T "$pool_timeout" -i "$link_id" -f "$frame_type" "$wlan" > /dev/null &
 }
