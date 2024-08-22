@@ -9,6 +9,7 @@ The changes of this branch are:
  - Custom board configs
  - Replaced kernel source link for 3516/7205, as 8812eu driver needs WIRELESS_EXT enabled in kernel source code
  - Using my Wi-Fi driver packages for FPV (experimental changes warning). Currently including [RTL8733BU](https://github.com/libc0607/rtl8733bu-20230626), [RTL8812CU/RTL8822CU](https://github.com/libc0607/rtl88x2cu-20230728), and [RTL8192EU](https://github.com/libc0607/rtl8192eu-20220929)(2.4G only).  
+ - EXPERIMENTAL 5/10/20/40/80 MHz bandwidth support; 5MHz supported by 8733bu & 8812cu (8812eu WIP), 10MHz supported by 8812eu, 8733bu & 8812cu, 40MHz uses HT40- (default in some Android App's driver). 80MHz only works on VHT mode so it's not working now (wfb-ng 24.08+ and Wi-Fi 5 adapters required).   
 
 Note 1: ALL HI3516/GK7205 BUILDS NEEDS A 16M-Byte NOR FLASH.  
 
