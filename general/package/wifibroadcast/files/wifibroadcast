@@ -122,9 +122,20 @@ load_interface() {
 	iw dev "$wlan" set monitor none
 	iw dev "$wlan" set channel "$channel" HT20
 	case "$bandwidth" in
+		5)
+			case "$driver" in
+				"8812eu" | "88x2cu")
+					iw dev "$wlan" set channel "$channel" 5MHz
+				;;
+				"8733bu")
+					echo "5" > /proc/net/rtl8733bu/$wlan/narrowband
+				;;
+			esac
+		;;
+
 		10)
 			case "$driver" in 
-				"8812eu")
+				"8812eu" | "88x2cu")
 					iw dev "$wlan" set channel "$channel" 10MHz
 				;;
 				"8733bu")
@@ -149,7 +160,7 @@ load_interface() {
 
 start_drone_wfb() {
 	bandwidth_wfb=$bandwidth
-	if [ "$bandwidth_wfb" -eq 10 ]; then
+	if [ "$bandwidth_wfb" -eq 10 ] || [ "$bandwidth_wfb" -eq 5 ]; then
 		bandwidth_wfb=20
 	fi
 	wfb_tx -p "$stream" -u "$udp_port" -R "$rcv_buf" -K "$keydir/$unit.key" -B "$bandwidth_wfb" \
