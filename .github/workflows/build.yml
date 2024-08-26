@@ -38,7 +38,7 @@ jobs:
 
           # Hisilicon [HI3536DV100] (NVR)
           - {"platform": "hi3536dv100", "release": "fpv_8812au_8812eu"}
-          - {"platform": "hi3536dv100", "release": "fpv_8812cu_8812eu"}
+          - {"platform": "hi3536dv100", "release": "fpv_8812cu"}
 
           # Goke [GK7205V200]
           - {"platform": "gk7205v200", "release": "venc_8733bu"}
