@@ -56,7 +56,8 @@ detect_wifi_card() {
 				
 			"0bda:c812")
 				driver="88x2cu"
-				modprobe 88x2cu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				# 88x2cu will hang when set the txpower too high. Use efuse val
+				modprobe 88x2cu # rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
 
 			"0cf3:9271" | "040d:3801")
@@ -103,12 +104,12 @@ load_interface() {
 		iwconfig "$wlan" mode monitor
 	fi
 
-	if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ] || [ "$driver" = "88x2cu" ]; then
+	if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
 	fi
 	
 	if [ "$driver" = "8192eu" ]; then
-		iw dev "$wlan" set txpower fixed $((txpower * 50))
+		iw dev "$wlan" set txpower fixed $((txpower * 50))	# 2.4G compat
 	fi
 
 	iw reg set "$region"
@@ -124,7 +125,7 @@ load_interface() {
 	case "$bandwidth" in
 		5)
 			case "$driver" in
-				"8812eu" | "88x2cu")
+				"88x2cu")
 					iw dev "$wlan" set channel "$channel" 5MHz
 				;;
 				"8733bu")
@@ -144,11 +145,8 @@ load_interface() {
 			esac
 		;;
 		
-		20)
-		;;
-		
 		40)
-			iw dev "$wlan" set channel "$channel" HT40-
+			iw dev "$wlan" set channel "$channel" HT40-	# Android App default
 		;;
 		
 		80)
@@ -160,12 +158,16 @@ load_interface() {
 
 start_drone_wfb() {
 	bandwidth_wfb=$bandwidth
-	if [ "$bandwidth_wfb" -eq 10 ] || [ "$bandwidth_wfb" -eq 5 ]; then
+	if [ "$bandwidth_wfb" -eq 5 ]; then
 		bandwidth_wfb=20
 	fi
+	vht_mode_wfb=""
+        if [ "$vht_mode" -eq 1 ]; then
+                vht_mode_wfb="-V"
+        fi
 	wfb_tx -p "$stream" -u "$udp_port" -R "$rcv_buf" -K "$keydir/$unit.key" -B "$bandwidth_wfb" \
-		-M "$mcs_index" -S "$stbc" -L "$ldpc" -G "$guard_interval" -k "$fec_k" -n "$fec_n" \
-		-T "$pool_timeout" -i "$link_id" -f "$frame_type" "$wlan" > /dev/null &
+		-M "$mcs_index" -N "$vht_nss" -S "$stbc" -L "$ldpc" -G "$guard_interval" -k "$fec_k" -n "$fec_n" \
+		-T "$pool_timeout" -i "$link_id" -f "$frame_type" $vht_mode_wfb "$wlan" > /dev/null &
 }
 
 start_gs_wfb() {
