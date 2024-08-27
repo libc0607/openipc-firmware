@@ -59,7 +59,12 @@ detect_wifi_card() {
 				# 88x2cu will hang when set the txpower too high. Use efuse val
 				modprobe 88x2cu # rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
 				;;
-
+				
+			"0bda:f179")
+				driver="8188fu"
+				modprobe 8188fu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				;;	
+				
 			"0cf3:9271" | "040d:3801")
 				driver="ar9271"
 				if [ "$unit" != "gs" ]; then
@@ -108,7 +113,7 @@ load_interface() {
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
 	fi
 	
-	if [ "$driver" = "8192eu" ]; then
+	if [ "$driver" = "8192eu" ] || [ "$driver" = "8188fu" ]; then
 		iw dev "$wlan" set txpower fixed $((txpower * 50))	# 2.4G compat
 	fi
 
@@ -125,7 +130,7 @@ load_interface() {
 	case "$bandwidth" in
 		5)
 			case "$driver" in
-				"88x2cu")
+				"88x2cu" | "8188fu")
 					iw dev "$wlan" set channel "$channel" 5MHz
 				;;
 				"8733bu")
@@ -136,7 +141,7 @@ load_interface() {
 
 		10)
 			case "$driver" in 
-				"8812eu" | "88x2cu")
+				"8812eu" | "88x2cu" | "8188fu")
 					iw dev "$wlan" set channel "$channel" 10MHz
 				;;
 				"8733bu")
