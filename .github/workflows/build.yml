@@ -32,6 +32,7 @@ jobs:
 
           # Hisilicon [HI3516EV200]
           - {"platform": "hi3516ev200", "release": "fpv_8733bu"}
+          - {"platform": "hi3516ev200", "release": "fpv_8188fu"}
           - {"platform": "hi3516ev200", "release": "fpv_8812au_8812eu"}
           - {"platform": "hi3516ev300", "release": "fpv_8733bu"}
           - {"platform": "hi3516ev300", "release": "fpv_8812au_8812eu"}
