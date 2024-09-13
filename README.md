@@ -7,9 +7,9 @@ See [the release page](https://github.com/libc0607/openipc-firmware/releases/tag
 The changes of this branch are: 
  - build.yml, only build firmware for not officially supported configs in popular FPV combinations (Save energy. ![The Girl: How dare you.gif])
  - Custom board configs
- - Replaced kernel source link for 3516/7205, as 8812eu driver needs WIRELESS_EXT enabled in kernel source code
- - Using my Wi-Fi driver packages for FPV (experimental changes warning). Currently including [RTL8731BU/RTL8733BU](https://github.com/libc0607/rtl8733bu-20230626), [RTL8812CU/RTL8822CU](https://github.com/libc0607/rtl88x2cu-20230728)(Unlock txpower not allowed -- will cause hang), and [RTL8192EU](https://github.com/libc0607/rtl8192eu-20220929)(2.4G only).  
- - 5/10/20/40/80 MHz bandwidth support; 5MHz supported by 8733bu & 8812cu, 10MHz supported by 8812eu, 8733bu & 8812cu, 40MHz uses HT40- (default in some Android App's driver). 80MHz only works on VHT mode so Wi-Fi 5 adapters are required.   
+ - Replaced kernel source link for 3516/7205, as most of the Realtek drivers need WIRELESS_EXT enabled in kernel source code
+ - Using my Wi-Fi driver packages for FPV (experimental changes warning). Currently including [RTL8731BU/RTL8733BU](https://github.com/libc0607/rtl8733bu-20230626), [RTL8812CU/RTL8822CU](https://github.com/libc0607/rtl88x2cu-20230728), [RTL8188FU/RTL8188FTV)](https://github.com/libc0607/rtl8188fu-20230217)(2.4G only) ,and [RTL8192EU](https://github.com/libc0607/rtl8192eu-20220929)(2.4G only).  
+ - 5/10/20/40/80 MHz bandwidth support; 5MHz supported by 8188fu, 8733bu & 8812cu, 10MHz supported by 8812eu, 8733bu, 8188fu & 8812cu, 40MHz uses HT40- (default in some Android App's driver). 80MHz only works on VHT mode so Wi-Fi 5 adapters are required.   
 
 Note 1: ALL HI3516/GK7205 BUILDS NEEDS A 16M-Byte NOR FLASH.  
 
