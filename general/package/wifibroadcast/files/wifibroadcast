@@ -188,7 +188,7 @@ start_drone_wfb() {
         fi
 	wfb_tx -p "$stream" -u "$udp_port" -R "$rcv_buf" -K "$keydir/$unit.key" -B "$bandwidth_wfb" \
 		-M "$mcs_index" -N "$vht_nss" -S "$stbc" -L "$ldpc" -G "$guard_interval" -k "$fec_k" -n "$fec_n" \
-		-T "$pool_timeout" -i "$link_id" -f "$frame_type" $vht_mode_wfb "$wlan" > /dev/null &
+		-T "$pool_timeout" -i "$link_id" -f "$frame_type" $vht_mode_wfb -C 8000 "$wlan" > /dev/null &
 }
 
 start_gs_wfb() {
