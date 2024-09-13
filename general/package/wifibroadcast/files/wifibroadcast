@@ -41,7 +41,7 @@ detect_wifi_card() {
 
 			"0bda:a81a")
 				driver="8812eu"
-				modprobe 8812eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				modprobe 8812eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0 rtw_tx_npath_enable="$tx_npath"
 				;;
 
 			"0bda:f72b" | "0bda:b733")
@@ -51,13 +51,12 @@ detect_wifi_card() {
 				
 			"0bda:818b")
 				driver="8192eu"
-				modprobe 8192eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				modprobe 8192eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0 rtw_tx_npath_enable="$tx_npath"
 				;;
 				
 			"0bda:c812")
 				driver="88x2cu"
-				# 88x2cu will hang when set the txpower too high. Use efuse val
-				modprobe 88x2cu # rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+				modprobe 88x2cu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0 rtw_tx_npath_enable="$tx_npath"
 				;;
 				
 			"0bda:f179")
@@ -109,7 +108,7 @@ load_interface() {
 		iwconfig "$wlan" mode monitor
 	fi
 
-	if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
+	if [ "$driver" = "8812eu" ] || [ "$driver" = "88x2cu" ] || [ "$driver" = "8733bu" ]; then
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
 	fi
 	
@@ -159,6 +158,23 @@ load_interface() {
 		;;
 		
 	esac
+	
+	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
+		case "$driver" in 
+				"8812eu")
+					echo "$dis_cca" > /proc/net/rtl88x2eu/$wlan/dis_cca
+					echo "$edcca_thresh_override_en $edcca_thresh_override" > /proc/net/rtl88x2eu/$wlan/edcca_threshold_jaguar3_override
+				;;
+				"88x2cu")
+					echo "$dis_cca" > /proc/net/rtl88x2cu/$wlan/dis_cca
+					echo "$edcca_thresh_override_en $edcca_thresh_override" > /proc/net/rtl88x2cu/$wlan/edcca_threshold_jaguar3_override
+				;;
+				"8733bu")
+					echo "$dis_cca" > /proc/net/rtl8733bu/$wlan/dis_cca
+					echo "$edcca_thresh_override_en $edcca_thresh_override" > /proc/net/rtl8733bu/$wlan/edcca_threshold_jaguar3_override
+				;;
+			esac
+	fi
 }
 
 start_drone_wfb() {
