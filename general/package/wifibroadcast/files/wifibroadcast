@@ -159,6 +159,19 @@ load_interface() {
 		
 	esac
 	
+	if [ "$channel_unlock_en" -eq 1 ]; then
+		if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
+			case "$driver" in 
+				"8812eu")
+					echo "$channel_unlock $bandwidth" > /proc/net/rtl88x2eu/$wlan/monitor_chan_override
+				;;
+				"8733bu")
+					echo "$channel_unlock $bandwidth" > /proc/net/rtl8733bu/$wlan/monitor_chan_override
+				;;
+			esac
+		fi
+	fi
+	
 	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
 		case "$driver" in 
 				"8812eu")
