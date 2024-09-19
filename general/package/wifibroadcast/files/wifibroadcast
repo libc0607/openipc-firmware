@@ -159,16 +159,32 @@ load_interface() {
 		
 	esac
 	
-	if [ "$channel_unlock_en" -eq 1 ]; then
+	need_channel_unlock=1
+	pre_channel=$channel
+	if [ "$channel" -ge 16 ] && [ "$channel" -lt 36 ]; then
+		pre_channel=36
+	elif [ "$channel" -gt 64 ] && [ "$channel" -lt 100 ]; then
+		pre_channel=64
+	elif [ "$channel" -gt 165 ] && [ "$channel" -le 201 ]; then
+		pre_channel=165
+	else
+		need_channel_unlock=0
+	fi
+	
+	if [ "$need_channel_unlock" -eq 1 ]; then
 		if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
+			echo "Channel $channel needs unlock, set that to /proc... "
+			iwconfig "$wlan" channel "$pre_channel"
 			case "$driver" in 
 				"8812eu")
-					echo "$channel_unlock $bandwidth" > /proc/net/rtl88x2eu/$wlan/monitor_chan_override
+					echo "$channel $bandwidth" > /proc/net/rtl88x2eu/$wlan/monitor_chan_override
 				;;
 				"8733bu")
-					echo "$channel_unlock $bandwidth" > /proc/net/rtl8733bu/$wlan/monitor_chan_override
+					echo "$channel $bandwidth" > /proc/net/rtl8733bu/$wlan/monitor_chan_override
 				;;
 			esac
+		else 
+			echo "Channel $channel needs unlock, but $wlan driver does not support that. "
 		fi
 	fi
 	
