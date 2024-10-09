@@ -1,5 +1,5 @@
 #!/bin/sh
-fw=$(grep "BUILD_OPTION" "/etc/os-release" | cut -d= -f2)
+fw=$(grep "BUILD_OPTION" "/etc/os-release" | cut -d= -f2 | cut -d_ -f1)
 keydir=/etc
 
 if [ -e /etc/datalink.conf ]; then
