@@ -4,7 +4,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '30 23 * * *'
+    - cron: '30 22 * * *'
   workflow_dispatch:
 
 env:
@@ -22,30 +22,24 @@ jobs:
           # Sigmastar [I6E]
           - {"platform": "ssc30kq", "release": "fpv_8733bu"}
           - {"platform": "ssc30kq", "release": "fpv_8188fu"}
-          - {"platform": "ssc30kq", "release": "rubyfpv"}
-          - {"platform": "ssc30kq", "release": "fpv_8812eu_8192eu"}
+          - {"platform": "ssc30kq", "release": "fpv_8192eu"}
           - {"platform": "ssc30kq", "release": "fpv_8812cu"}
+          
           - {"platform": "ssc338q", "release": "fpv_8733bu"}
           - {"platform": "ssc338q", "release": "fpv_8188fu"}
-          - {"platform": "ssc338q", "release": "fpv_8812eu_8192eu"}
+          - {"platform": "ssc338q", "release": "fpv_8192eu"}
           - {"platform": "ssc338q", "release": "fpv_8812cu"}
 
           # Hisilicon [HI3516EV200]
           - {"platform": "hi3516ev200", "release": "fpv_8733bu"}
           - {"platform": "hi3516ev200", "release": "fpv_8188fu"}
-          - {"platform": "hi3516ev200", "release": "fpv_8812au_8812eu"}
-          - {"platform": "hi3516ev300", "release": "fpv_8733bu"}
-          - {"platform": "hi3516ev300", "release": "fpv_8812au_8812eu"}
-
-          # Hisilicon [HI3536DV100] (NVR)
-          - {"platform": "hi3536dv100", "release": "fpv_8812au_8812eu"}
-          - {"platform": "hi3536dv100", "release": "fpv_8812cu"}
+          - {"platform": "hi3516ev200", "release": "fpv_8812eu"}
+          - {"platform": "hi3516ev200", "release": "fpv_8192eu"}
+          - {"platform": "hi3516ev200", "release": "fpv_8812cu"}
 
           # Goke [GK7205V200]
           - {"platform": "gk7205v200", "release": "venc_8733bu"}
-          - {"platform": "gk7205v200", "release": "venc_8812au_8812eu"}
-          - {"platform": "gk7205v300", "release": "venc_8733bu"}
-          - {"platform": "gk7205v300", "release": "venc_8812au_8812eu"}
+          - {"platform": "gk7205v200", "release": "venc_8812eu"}
 
     steps:
       - name: Checkout source
