@@ -54,7 +54,7 @@ detect_wifi_card() {
 				modprobe 8192eu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0 rtw_tx_npath_enable="$tx_npath"
 				;;
 				
-			"0bda:c812")
+			"0bda:c812" | "0bda:c82c")
 				driver="88x2cu"
 				modprobe 88x2cu rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0 rtw_tx_npath_enable="$tx_npath"
 				;;
