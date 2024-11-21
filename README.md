@@ -18,26 +18,3 @@ Note 2: The source code is manually synced with [OpenIPC/firmware](https://githu
 Note 3: The firmware on the release page is not tested on any real board. It's auto-built. Use with caution, you know the risks, and I won't be responsible for them.  
 
 备注 4: 你的浏览器应该有翻译功能，我就不写中文了  
-
-
-|  SoC   | Wi-Fi Adaptor  | Encoder | Link |
-|  ----  | ----  | ----  | ----  |
-| GK7205V200  	| RTL8812EU/RTL8812AU | venc | [openipc.gk7205v200-nor-venc_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.gk7205v200-nor-venc_8812au_8812eu.tgz) |
-| GK7205V200  	| RTL8733BU | venc | [openipc.gk7205v200-nor-venc_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.gk7205v200-nor-venc_8733bu.tgz) |
-| GK7205V300  	| RTL8812EU/RTL8812AU | venc | [openipc.gk7205v300-nor-venc_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.gk7205v300-nor-venc_8812au_8812eu.tgz) | 
-| GK7205V300  	| RTL8733BU | venc | [openipc.gk7205v300-nor-venc_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.gk7205v300-nor-venc_8733bu.tgz) |
-| Hi3516EV200  	| RTL8812EU/RTL8812AU | majestic | [openipc.hi3516ev200-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3516ev200-nor-fpv_8812au_8812eu.tgz) |
-| Hi3516EV200  	| RTL8733BU | majestic | [openipc.hi3516ev200-nor-fpv_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3516ev200-nor-fpv_8733bu.tgz) |
-| Hi3516EV300  	| RTL8812EU/RTL8812AU | majestic | [openipc.hi3516ev300-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3516ev300-nor-fpv_8812au_8812eu.tgz) |
-| Hi3516EV300  	| RTL8733BU | majestic | [openipc.hi3516ev300-nor-fpv_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3516ev300-nor-fpv_8733bu.tgz) |
-| Hi3536D(E)V100 	| RTL8812EU/RTL8812AU | vdec | [openipc.hi3536dv100-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.hi3536dv100-nor-fpv_8812au_8812eu.tgz) |
-| SSC30KQ	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812au_8812eu.tgz) |
-| SSC30KQ	| RTL8733BU | majestic | [openipc.ssc30kq-nor-fpv_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8733bu.tgz) |
-| SSC30KQ	| RTL8812EU/RTL8812AU | RubyFPV(majestic) | [openipc.ssc30kq-nor-rubyfpv.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-rubyfpv.tgz) |
-| SSC30KQ	| RTL8812EU/RTL8192EU | majestic | [openipc.ssc30kq-nor-fpv_8812eu_8192eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812eu_8192eu.tgz) |
-| SSC30KQ	| RTL8812CU | majestic | [openipc.ssc30kq-nor-fpv_8812cu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc30kq-nor-fpv_8812cu.tgz) |
-| SSC338Q	| RTL8812EU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8812eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8812eu.tgz) |
-| SSC338Q	| RTL8733BU/RTL8812AU | majestic | [openipc.ssc338q-nor-fpv_8812au_8733bu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812au_8733bu.tgz) | 
-| SSC338Q	| RTL8812EU/RTL8192EU | majestic | [openipc.ssc338q-nor-fpv_8812eu_8192eu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812eu_8192eu.tgz) |
-| SSC338Q	| RTL8812CU | majestic | [openipc.ssc338q-nor-fpv_8812cu.tgz](https://github.com/libc0607/openipc-firmware/releases/download/latest/openipc.ssc338q-nor-fpv_8812cu.tgz) |
-
