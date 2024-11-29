@@ -204,6 +204,18 @@ load_interface() {
 				;;
 			esac
 	fi
+	
+	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ]; then
+		if [ "$bf_mon_en" -eq 1 ]; then
+			bf_local_mac=$(iw "$wlan" info|grep addr|cut -d " " -f 2)
+			if [ "$driver" = "88x2cu" ]; then 
+				driver_path=rtl88x2cu
+			elif [ "$driver" = "8812eu" ]; then 
+				driver_path=rtl88x2eu
+			fi
+			bf_mon.sh start "$driver_path" "$wlan" "$bf_local_mac" "$bf_remote_mac" "$bandwidth" "$bf_ackto" "$bf_interval" &
+		fi
+	fi
 }
 
 start_drone_wfb() {
