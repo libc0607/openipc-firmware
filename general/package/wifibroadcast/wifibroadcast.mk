@@ -13,7 +13,15 @@ ifeq ($(OPENIPC_SOC_FAMILY),hi3536dv100)
 	WIFIBROADCAST_UNIT = gs
 endif
 
-WIFIBROADCAST_DEPENDENCIES += libpcap libsodium iw
+WIFIBROADCAST_DEPENDENCIES += libpcap libsodium iw libevent
+
+define WIFIBROADCAST_PLATFORM_INGENIC
+	cd $(@D) && patch -p1 < $(WIFIBROADCAST_PKGDIR)/files/disable_qdisc_bypass_for_ingenic.patch
+endef
+
+ifeq ($(OPENIPC_SOC_FAMILY),t31)
+WIFIBROADCAST_POST_PATCH_HOOKS += WIFIBROADCAST_PLATFORM_INGENIC
+endif
 
 define WIFIBROADCAST_BUILD_CMDS
 	$(MAKE) CC=$(TARGET_CC) CXX=$(TARGET_CXX) LDFLAGS=-s -C $(@D) all_bin

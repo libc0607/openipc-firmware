@@ -1,0 +1,41 @@
+--- a/src/tx.cpp
++++ b/src/tx.cpp
+@@ -211,7 +211,7 @@
+             throw runtime_error(string_format("Unable to open PF_PACKET socket: %s", strerror(errno)));
+         }
+ 
+-        if(!use_qdisc)
++        /*if(!use_qdisc)
+         {
+             const int optval = 1;
+             if(setsockopt(fd, SOL_PACKET, PACKET_QDISC_BYPASS, (const void *)&optval , sizeof(optval)) !=0)
+@@ -219,7 +219,7 @@
+                 close(fd);
+                 throw runtime_error(string_format("Unable to set PACKET_QDISC_BYPASS: %s", strerror(errno)));
+             }
+-        }
++        }*/
+ 
+         struct ifreq ifr;
+         memset(&ifr, '\0', sizeof(ifr));
+--- a/src/tx.hpp
++++ a/src/tx.hpp
+@@ -358,7 +358,7 @@ public:
+                 throw runtime_error(string_format("Unable to open PF_PACKET socket: %s", strerror(errno)));
+             }
+ 
+-            if(!use_qdisc)
++            /*if(!use_qdisc)
+             {
+                 const int optval = 1;
+                 if(setsockopt(fd, SOL_PACKET, PACKET_QDISC_BYPASS, (const void *)&optval , sizeof(optval)) !=0)
+@@ -366,7 +366,7 @@ public:
+                     close(fd);
+                     throw runtime_error(string_format("Unable to set PACKET_QDISC_BYPASS: %s", strerror(errno)));
+                 }
+-            }
++            }*/
+ 
+             struct ifreq ifr;
+             memset(&ifr, '\0', sizeof(ifr));
+
