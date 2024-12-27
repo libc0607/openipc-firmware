@@ -1,0 +1,7 @@
+config BR2_PACKAGE_INJECT_TOOLS
+	bool "inject-tools"
+	default n
+	help
+	  Simple packet injection tools for testing Wi-Fi NICs
+	  Github @libc0607
+
