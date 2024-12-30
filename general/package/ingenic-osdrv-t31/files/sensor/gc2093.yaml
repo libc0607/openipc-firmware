@@ -1,5 +1,5 @@
 sensor:
-  name: gc2083
+  name: gc2093
   address: 0x37
   width: 1920
   height: 1080
