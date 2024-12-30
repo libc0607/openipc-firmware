@@ -77,7 +77,15 @@ detect_wifi_card() {
 	done
 
 	if [ -z "$driver" ]; then
-		echo "Wireless module not detected, check the usb connection."
+		echo "USB Wireless module not detected, probing SDIO..."
+		modprobe 88x2cs rtw_regd_src=1 rtw_tx_pwr_by_rate=0 rtw_tx_pwr_lmt_enable=0
+		if [ "$?" -eq 0 ]; then  # firmware contains 88x2cs driver
+			driver="88x2cs"
+		fi
+	fi
+	
+	if [ -z "$driver" ]; then
+		echo "Wireless module not detected, check the connection."
 		exit 1
 	else
 		echo "Detected: $driver"
@@ -86,7 +94,7 @@ detect_wifi_card() {
 	local n=0
 	while ! ifconfig -a | grep -q "$wlan"; do
 		if [ "$n" -ge 5 ]; then
-			echo "No interface for $wlan, check the usb connection."
+			echo "No interface for $wlan, check the connection."
 			exit 1
 		fi
 		sleep 0.5
@@ -108,7 +116,7 @@ load_interface() {
 		iwconfig "$wlan" mode monitor
 	fi
 
-	if [ "$driver" = "8812eu" ] || [ "$driver" = "88x2cu" ] || [ "$driver" = "8733bu" ]; then
+	if [ "$driver" = "8812eu" ] || [ "$driver" = "88x2cu" ] || [ "$driver" = "8733bu" ] || [ "$driver" = "88x2cs" ]; then
 		iw dev "$wlan" set txpower fixed $((driver_txpower_override * 50))
 	fi
 	
@@ -126,11 +134,14 @@ load_interface() {
 	
 	iw dev "$wlan" set monitor none
 	iw dev "$wlan" set channel "$channel" HT20
+	kernel_main_ver=$(uname -r |cut -d. -f1)
 	case "$bandwidth" in
 		5)
 			case "$driver" in
-				"88x2cu" | "8188fu")
-					iw dev "$wlan" set channel "$channel" 5MHz
+				"88x2cu" | "8188fu" | "88x2cs")
+					if [ "$kernel_main_ver" -ge 4 ]; then
+						iw dev "$wlan" set channel "$channel" 5MHz
+					fi
 				;;
 				"8733bu")
 					echo "5" > /proc/net/rtl8733bu/$wlan/narrowband
@@ -140,8 +151,10 @@ load_interface() {
 
 		10)
 			case "$driver" in 
-				"8812eu" | "88x2cu" | "8188fu")
-					iw dev "$wlan" set channel "$channel" 10MHz
+				"8812eu" | "88x2cu" | "8188fu" | "88x2cs")
+					if [ "$kernel_main_ver" -ge 4 ]; then
+						iw dev "$wlan" set channel "$channel" 10MHz
+					fi
 				;;
 				"8733bu")
 					echo "10" > /proc/net/rtl8733bu/$wlan/narrowband
@@ -171,9 +184,9 @@ load_interface() {
 		need_channel_unlock=0
 	fi
 	
-	if [ "$need_channel_unlock" -eq 1 ]; then
-		if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
-			echo "Channel $channel needs unlock, set that to /proc... "
+	if [ "$need_channel_unlock" -eq 1 ] || [ "$kernel_main_ver" -lt 4 ]; then
+		if [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ] || [ "$driver" = "88x2cs" ]; then
+			echo "Channel $channel / $bandwidth needs to be set by /proc... "
 			iwconfig "$wlan" channel "$pre_channel"
 			case "$driver" in 
 				"8812eu")
@@ -182,13 +195,16 @@ load_interface() {
 				"8733bu")
 					echo "$channel $bandwidth" > /proc/net/rtl8733bu/$wlan/monitor_chan_override
 				;;
+				"88x2cs")
+					echo "$channel $bandwidth" > /proc/net/rtl88x2cs/$wlan/monitor_chan_override
+				;;
 			esac
 		else 
-			echo "Channel $channel needs unlock, but $wlan driver does not support that. "
+			echo "Channel $channel / $bandwidth needs /proc to set, but $wlan driver does not support that. "
 		fi
 	fi
 	
-	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ]; then
+	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ] || [ "$driver" = "8733bu" ] || [ "$driver" = "88x2cs" ]; then
 		case "$driver" in 
 				"8812eu")
 					echo "$dis_cca" > /proc/net/rtl88x2eu/$wlan/dis_cca
@@ -202,16 +218,22 @@ load_interface() {
 					echo "$dis_cca" > /proc/net/rtl8733bu/$wlan/dis_cca
 					echo "$edcca_thresh_override_en $edcca_thresh_override" > /proc/net/rtl8733bu/$wlan/edcca_threshold_jaguar3_override
 				;;
+				"88x2cs")
+					echo "$dis_cca" > /proc/net/rtl88x2cs/$wlan/dis_cca
+					echo "$edcca_thresh_override_en $edcca_thresh_override" > /proc/net/rtl88x2cs/$wlan/edcca_threshold_jaguar3_override
+				;;
 			esac
 	fi
 	
-	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ]; then
+	if [ "$driver" = "88x2cu" ] || [ "$driver" = "8812eu" ] || [ "$driver" = "88x2cs" ]; then
 		if [ "$bf_mon_en" -eq 1 ]; then
 			bf_local_mac=$(iw "$wlan" info|grep addr|cut -d " " -f 2)
 			if [ "$driver" = "88x2cu" ]; then 
 				driver_path=rtl88x2cu
 			elif [ "$driver" = "8812eu" ]; then 
 				driver_path=rtl88x2eu
+			elif [ "$driver" = "88x2cs" ]; then 
+				driver_path=rtl88x2cs
 			fi
 			bf_mon.sh start "$driver_path" "$wlan" "$bf_local_mac" "$bf_remote_mac" "$bandwidth" "$bf_ackto" "$bf_interval" &
 		fi

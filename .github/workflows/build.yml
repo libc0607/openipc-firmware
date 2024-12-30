@@ -43,6 +43,14 @@ jobs:
           - {"platform": "gk7205v200", "release": "venc_8733bu"}
           - {"platform": "gk7205v200", "release": "venc_8812eu"}
 
+          # Ingenic [T31]
+          - {"platform": "t31", "release": "fpv_8733bu"}
+          - {"platform": "t31", "release": "fpv_8812au"}
+          - {"platform": "t31", "release": "fpv_8812cu"}
+          - {"platform": "t31", "release": "fpv_8812eu"}
+          - {"platform": "t31", "release": "fpv_8188fu"}
+          - {"platform": "t31", "release": "fpv_8192eu"}
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4

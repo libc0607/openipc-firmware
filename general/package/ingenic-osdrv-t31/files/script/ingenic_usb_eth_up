@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ipaddr=$(fw_printenv -n ipaddr)
+gatewayip=$(fw_printenv -n gatewayip)
+
+echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect
+ifconfig usb0 "$ipaddr" up
+route add default gw "$gatewayip"
+
