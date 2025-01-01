@@ -157,6 +157,7 @@ case "$1" in
 		echo "Preparing system tweaks for $chip..."
 		basic
 		streamer
+		sed -i "s!#console::respawn:/sbin/getty -L console 0 vt100!console::respawn:/sbin/getty -L console 0 vt100!g" /etc/inittab
 		finish
 		;;
 
