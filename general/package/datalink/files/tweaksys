@@ -103,6 +103,26 @@ sigmastar() {
 	touch /etc/system.ok
 }
 
+ingenic_t31() {
+	sed -i "s|tunnel=false|tunnel=true|g" /etc/datalink.conf
+	sed -i "s|serial=/dev/ttyAMA0|serial=/dev/ttyS0|g" /etc/telemetry.conf
+	sed -i "s|Device = /dev/ttyAMA0|Device = /dev/ttyS0|g" /etc/mavlink.conf
+	sed -i "s!#console::respawn:/sbin/getty -L console 0 vt100!console::respawn:/sbin/getty -L console 0 vt100!g" /etc/inittab
+	if [ "$sensor" = "gc2093" ]; then
+		cli -s .video0.size 1280x720
+		cli -s .video0.fps 120
+	else
+		cli -s .video0.size 1920x1080
+		cli -s .video0.fps 30
+	fi
+	cli -s .video0.codec h265
+	cli -s .video0.rcMode cbr
+	cli -s .jpeg.enabled false
+	cli -s .outgoing.enabled true
+	cli -s .outgoing.server udp://127.0.0.1:5600
+	touch /etc/system.ok
+}
+
 case "$1" in
 	gk7205v200 | gk7205v210 | hi3516ev200)
 		echo "Preparing system tweaks for ${chip}..."
@@ -157,7 +177,7 @@ case "$1" in
 		echo "Preparing system tweaks for $chip..."
 		basic
 		streamer
-		sed -i "s!#console::respawn:/sbin/getty -L console 0 vt100!console::respawn:/sbin/getty -L console 0 vt100!g" /etc/inittab
+		ingenic_t31
 		finish
 		;;
 
