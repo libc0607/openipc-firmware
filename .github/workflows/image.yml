@@ -5,9 +5,8 @@ on:
   workflow_dispatch:
 
 env:
-  SIGMASTAR: ssc30kd ssc30kq ssc325 ssc333 ssc335 ssc335de ssc337 ssc337de ssc338q ssc377 ssc377d ssc377de ssc378de
-  INGENIC: t10 t10l t20 t20l t20x t21n t30a t30a1 t30l t30n t30x t31a t31al t31l t31lc t31n t31x
-  ALLWINNER: v851s
+  SIGMASTAR: ssc30kq ssc338q
+  INGENIC: t31x
   TAG_NAME: image
 
 jobs:
@@ -17,11 +16,11 @@ jobs:
     steps:
       - name: Prepare
         run: |
-            link=https://github.com/openipc/firmware/releases/download/latest
+            link=https://github.com/libc0607/openipc-firmware/releases/download/latest
             create() {
               uboot=u-boot-$1-nor.bin
-              firmware=openipc.$2-nor-$3.tgz
-              release=target/openipc-$1-nor-$3.bin
+              firmware=openipc.$2-nor-fpv_$3.tgz
+              release=target/openipc-$1-nor-fpv_$3.bin
 
               mkdir -p output target
               if ! wget -nv $link/$uboot -O output/$1.bin; then
@@ -44,14 +43,21 @@ jobs:
               echo -e "Created: $release\n"
             }
 
-            for soc in $SIGMASTAR $ALLWINNER; do
-              create $soc $soc lite
-              create $soc $soc ultimate
+            for soc in $SIGMASTAR; do
+              create $soc $soc 8812au_8812eu
+              create $soc $soc 8812cu
+              create $soc $soc 8733bu
+              create $soc $soc 8192eu
+              create $soc $soc 8188fu
             done
 
             for soc in $INGENIC; do
-              create $soc ${soc:0:3} lite
-              create $soc ${soc:0:3} ultimate
+              create $soc ${soc:0:3} 8812au
+              create $soc ${soc:0:3} 8812cu
+              create $soc ${soc:0:3} 8812eu
+              create $soc ${soc:0:3} 8733bu
+              create $soc ${soc:0:3} 8192eu
+              create $soc ${soc:0:3} 8188fu
             done
 
       - name: Upload
